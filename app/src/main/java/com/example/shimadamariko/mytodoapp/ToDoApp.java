@@ -109,7 +109,7 @@ public class ToDoApp extends AppCompatActivity {
                 resultCode == RESULT_OK) {//結果がOKだった場合
             Bundle extras = intent.getExtras();//遷移先から格納されたintent情報を取得してextrasに代入
             if (extras != null) {//extrasがnullじゃなかったら
-                String result = extras.getString("result");//"result"の情報を取得してresultに代入(add:追加、edit:編集、delete:削除）
+                String result = extras.getString("result");//"result"の情報を取得してresultに代入("add":追加、"edit":編集、"delete":削除）
                 int pos = extras.getInt("pos");//"pos"の情報を取得してposに代入
                 String title = extras.getString("title");//"title"の情報を取得してtitelに代入
                 boolean checked = extras.getBoolean("checked");//チェックされているかをcheckedに代入(false,ture)
@@ -144,38 +144,38 @@ public class ToDoApp extends AppCompatActivity {
         @Override
         public int getCount() {
             return items.size();
-        }
+        }//Listの数を返すメソッド
 
         //要素の取得
         @Override
         public ToDoItem getItem(int pos) {
             return items.get(pos);
-        }
+        }//itemのポジション返すメソッド
 
         //要素IDの取得
         @Override
         public long getItemId(int pos) {
             return pos;
-        }
+        }//
 
         //セルのビューの生成(2)
         @Override
         public View getView(int pos, View view, ViewGroup parent) {
-            ToDoItem item = items.get(pos);
+            ToDoItem item = items.get(pos);//itemのポジションをitemに代入
 
             //レイアウトの生成
-            if (view == null) {
+            if (view == null) {//viewがない場合はレイアウトを生成
                 //レイアウトの生成
                 LinearLayout layout = new LinearLayout(ToDoApp.this);
                 layout.setBackgroundColor(Color.WHITE);
-                layout.setPadding(
+                layout.setPadding(//padding：要素の内側の余白をセット
                         Util.dp2px(ToDoApp.this, 10),
                         Util.dp2px(ToDoApp.this, 10),
                         Util.dp2px(ToDoApp.this, 10),
                         Util.dp2px(ToDoApp.this, 10));
-                layout.setOnClickListener(new View.OnClickListener() {
+                layout.setOnClickListener(new View.OnClickListener() {//リスナを設定
                     @Override
-                    public void onClick(View sender) {
+                    public void onClick(View sender) {//タップされた時の処理
                         //編集アクティビティの起動
                         int pos = Integer.parseInt((String)sender.getTag());
                         ToDoItem item = items.get(pos);
