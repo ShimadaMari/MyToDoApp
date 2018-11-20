@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -37,7 +39,7 @@ public class ToDoApp extends AppCompatActivity {
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.setTitle("ToDoアプリ");//タイトルをセット
+        this.setTitle("ToDoアプリ");//タイトルをセットBundle
 
         //要素群の読み込み
         items = new ArrayList<ToDoItem>();
@@ -92,7 +94,7 @@ public class ToDoApp extends AppCompatActivity {
          //   intent.putExtra("枠","追加");
             intent.putExtra("checked", false);//チェックなしを格納
         } else {//引数がnull以外の場合
-            intent.putExtra("pos", items.indexOf(item));//positionのindexを格納
+            intent.putExtra("pos", items.indexOf(item));//itemsのpositionのitemを格納
 
             intent.putExtra("title", item.title); //titelを格納
             intent.putExtra("checked", item.checked);//チェックを格納
@@ -123,7 +125,7 @@ public class ToDoApp extends AppCompatActivity {
                 }
                 //編集
                 else if (result.equals("edit")) {//編集ボタンだった場合
-                    ToDoItem item = items.get(pos);//positionをゲット
+                    ToDoItem item = items.get(pos);//itemsの// positionをゲット
                     item.title = title;//title生成
                     item.checked = checked;//checkedを生成
                 }
@@ -161,7 +163,7 @@ public class ToDoApp extends AppCompatActivity {
         //セルのビューの生成(2)
         @Override
         public View getView(int pos, View view, ViewGroup parent) {
-            ToDoItem item = items.get(pos);//itemのポジションをitemに代入
+            ToDoItem item = items.get(pos);//itemsのポジションをitemに代入
 
             //レイアウトの生成
             if (view == null) {//viewがない場合はレイアウトを生成
@@ -173,41 +175,42 @@ public class ToDoApp extends AppCompatActivity {
                         Util.dp2px(ToDoApp.this, 10),
                         Util.dp2px(ToDoApp.this, 10),
                         Util.dp2px(ToDoApp.this, 10));
-                layout.setOnClickListener(new View.OnClickListener() {//リスナを設定
+                layout.setOnClickListener(new View.OnClickListener() {//layoutにリスナを設定
                     @Override
                     public void onClick(View sender) {//タップされた時の処理
                         //編集アクティビティの起動
-                        int pos = Integer.parseInt((String)sender.getTag());
-                        ToDoItem item = items.get(pos);
-                        startEditActivity(item);
+                        int pos = Integer.parseInt((String)sender.getTag());//positonを返す処理
+                        ToDoItem item = items.get(pos);//itemにpositonの値を代入
+                        startEditActivity(item);//item値に基づいてEditActivityを開く
+
                     }
                 });
 
                 //チェックボックスの追加
-                CheckBox checkBox = new CheckBox(ToDoApp.this);
-                checkBox.setTextColor(Color.BLACK);
-                checkBox.setId(R.id.cell_checkbox);
-                checkBox.setChecked(true);
-                checkBox.setLayoutParams(new LinearLayout.LayoutParams(WC, WC));
-                checkBox.setOnClickListener(new View.OnClickListener() {
+                CheckBox checkBox = new CheckBox(ToDoApp.this);//チェックボックスノ生成
+                checkBox.setTextColor(Color.BLACK);//色の指定
+                checkBox.setId(R.id.cell_checkbox);//idの設定
+                checkBox.setChecked(true);//チェックボックスにチェックを設定
+                checkBox.setLayoutParams(new LinearLayout.LayoutParams(WC, WC));//表示を調整
+                checkBox.setOnClickListener(new View.OnClickListener() {//チェックボックスにリスナを設定
                     @Override
-                    public void onClick(View sender) {
+                    public void onClick(View sender) {//タップされた時の処理
                         //ToDo情報の更新
-                        int pos = Integer.parseInt((String)sender.getTag());
-                        ToDoItem item = items.get(pos);
-                        item.checked = ((CheckBox)sender).isChecked();
+                        int pos = Integer.parseInt((String)sender.getTag());//positionを返す処理
+                        ToDoItem item = items.get(pos);//itemにpositionの値を代入
+                        item.checked = ((CheckBox)sender).isChecked();//View型のsenderをチェックボックス型にキャストしChecked
                     }
                 });
-                layout.addView(checkBox);
-                view = layout;
+                layout.addView(checkBox);//レイアウトにチェックボックスを追加
+                view = layout;//viewにlayoutを代入
             }
 
             //値の指定
-            CheckBox checkBox = (CheckBox)view.findViewById(R.id.cell_checkbox);
-            checkBox.setChecked(item.checked);
-            checkBox.setText(item.title);
-            checkBox.setTag(""+pos);
-            view.setTag(""+pos);
+            CheckBox checkBox = (CheckBox)view.findViewById(R.id.cell_checkbox);//チェックボックにidを設定
+            checkBox.setChecked(item.checked);//item,checkedを設定
+            checkBox.setText(item.title);//itemのタイトルを設定
+            checkBox.setTag(""+pos);//
+            view.setTag(""+pos);//
             return view;
         }
     }
