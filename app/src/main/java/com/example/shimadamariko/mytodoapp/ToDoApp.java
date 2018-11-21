@@ -43,7 +43,7 @@ public class ToDoApp extends AppCompatActivity {
 
         //要素群の読み込み
         items = new ArrayList<ToDoItem>();
-        loadItems();
+        loadItems();//
 
         //リストビューの生成(1)
         listView = new ListView(this);//ListViewを呼び出し
@@ -156,9 +156,7 @@ public class ToDoApp extends AppCompatActivity {
 
         //要素IDの取得
         @Override
-        public long getItemId(int pos) {
-            return pos;
-        }//
+        public long getItemId(int pos) { return pos;}//
 
         //セルのビューの生成(2)
         @Override
@@ -190,7 +188,7 @@ public class ToDoApp extends AppCompatActivity {
                 CheckBox checkBox = new CheckBox(ToDoApp.this);//チェックボックスノ生成
                 checkBox.setTextColor(Color.BLACK);//色の指定
                 checkBox.setId(R.id.cell_checkbox);//idの設定
-                checkBox.setChecked(true);//チェックボックスにチェックを設定
+                //checkBox.setChecked(false);//チェックボックスにチェックを設定
                 checkBox.setLayoutParams(new LinearLayout.LayoutParams(WC, WC));//表示を調整
                 checkBox.setOnClickListener(new View.OnClickListener() {//チェックボックスにリスナを設定
                     @Override
@@ -198,20 +196,20 @@ public class ToDoApp extends AppCompatActivity {
                         //ToDo情報の更新
                         int pos = Integer.parseInt((String)sender.getTag());//positionを返す処理
                         ToDoItem item = items.get(pos);//itemにpositionの値を代入
-                        item.checked = ((CheckBox)sender).isChecked();//View型のsenderをチェックボックス型にキャストしChecked
+                        item.checked = ((CheckBox)sender).isChecked();//View型のsenderをチェックボックス型にキャストしチェックされているかどうかを調べる
                     }
                 });
                 layout.addView(checkBox);//レイアウトにチェックボックスを追加
                 view = layout;//viewにlayoutを代入
             }
 
-            //値の指定
-            CheckBox checkBox = (CheckBox)view.findViewById(R.id.cell_checkbox);//チェックボックにidを設定
+            //既存のチェックボックへの値の指定
+            CheckBox checkBox = (CheckBox)view.findViewById(R.id.cell_checkbox);//チェックボックにViewとidを設定
             checkBox.setChecked(item.checked);//item,checkedを設定
             checkBox.setText(item.title);//itemのタイトルを設定
-            checkBox.setTag(""+pos);//
-            view.setTag(""+pos);//
-            return view;
+            checkBox.setTag(""+pos);//ポジションとcheckBoxをタグ付
+            view.setTag(""+pos);//ボジションとViewをタグ付
+            return view;//getVieｗの内容を返す
         }
     }
 
@@ -232,45 +230,48 @@ public class ToDoApp extends AppCompatActivity {
     private void loadItems() {
         //プリファレンスからの読み込み
         SharedPreferences pref = getSharedPreferences(
-                "ToDoApp", MODE_PRIVATE);
+                "ToDoApp", MODE_PRIVATE);//デフォルトモード。作成されたファイルは呼び出し元のアプリケーション
         String json = pref.getString("items","");
 
         //JSONをArrayListに変換
         items = items2list(json);
     }
 
-    //ArrayListをJSONに変換(5)
+    //ArrayListをJSONに変換(5)     引数ArrayListのtimes
     private String list2json(ArrayList<ToDoItem> items) {
         try {
-            JSONArray array = new JSONArray();
-            for (ToDoItem item : items) {
-                JSONObject obj = new JSONObject();
-                obj.put("title", item.title);
-                obj.put("checked", item.checked);
-                array.put(obj);
+            JSONArray array = new JSONArray();//JSON配列オプジェクトをarrayに代入し生成
+            for (ToDoItem item : items) {//拡張for文でitemsをまわす（ToDoTiem i = 0 ; i < items.length ; i++)
+                JSONObject obj = new JSONObject();//JSONオプジェクトをobjに代入し生成
+                                           //ouject
+                obj.put("title", item.title);//JSONオプジェクトにitemのtitleを入れる
+                                           //ouject
+                obj.put("checked", item.checked);//JSONオプジェクトにitemのcheckedを入れる
+                array.put(obj);//JSON配列にJSONオプジェクトを入れる
+
             }
-            return array.toString();
+            return array.toString();//JSON配列ををStringで実行
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace();//errだった場合はスタックトレースを出力する
         }
-        return "";
+        return "";//String型のJSON配列を返す
     }
 
-    //JSONをArrayListに変換(6)
+    //JSONをArrayListに変換(6)              引数Stringのjson
     private ArrayList<ToDoItem> items2list(String json) {
-        ArrayList<ToDoItem> items = new ArrayList<ToDoItem>();
+        ArrayList<ToDoItem> items = new ArrayList<ToDoItem>();//ArrayListを生成
         try {
-            JSONArray array = new JSONArray(json);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                ToDoItem item = new ToDoItem();
-                item.title = obj.getString("title");
-                item.checked = obj.getBoolean("checked");
-                items.add(item);
+            JSONArray array = new JSONArray(json);//JSON配列をarrayに代入し生成
+            for (int i = 0; i < array.length(); i++) {//配列を回す
+                JSONObject obj = array.getJSONObject(i);//JSONopujekuをobjに代入し生成
+                ToDoItem item = new ToDoItem();//ToDoItemをitemに代入し生成
+                item.title = obj.getString("title");//itemのtitleにオプジェクトをget
+                item.checked = obj.getBoolean("checked");//itemのcheckedをget
+                items.add(item);//getしたitemをlistに追加
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace();//errだった場合はスタックトレースを出力する
         }
-        return items;
+        return items;//＜TodoItem＞のitemsを返す
     }
 }
