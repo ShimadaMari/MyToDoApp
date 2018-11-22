@@ -22,29 +22,29 @@ public class EditActivity extends AppCompatActivity {
     //定数
     private final static int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final static int MP = ViewGroup.LayoutParams.MATCH_PARENT;
-    private static final int MENU_ITEM0 = 0;
-    private static final int MENU_ITEM1 = 1;
+    private static final int MENU_ITEM0 = 0;//オプションメニュー 削除
+    private static final int MENU_ITEM1 = 1;//オプションメニュー 保存
     private static String tuika;
-    //情報
-    private int      pos;//?
-    private ToDoItem toDoItem;
+    //情報             ToDoAppから受け取る情報
+    private int      pos;//positionのパラメーター
+    private ToDoItem toDoItem;//ToDoItem
 
     //アクティビティ起動時に呼ばれる
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.setTitle(pos<0?"追加":"編集"); //タイトルを変える
+        this.setTitle(pos<0?"":"編集"); //タイトルを変える
 
         //パラメータの取得(3)
 
-        pos = -1;
-        toDoItem = new ToDoItem();
+        pos = -1;// positionなし
+        toDoItem = new ToDoItem();  //ToDoItem生成
         Bundle extras = getIntent().getExtras();
-                //?                    //インテントから拡張データのマップを取得します
+                                   //インテントから拡張データのマップを取得します
         if (extras != null) {
-            pos = extras.getInt("pos");
-            toDoItem.title = extras.getString("title");
-            toDoItem.checked = extras.getBoolean("checked");
+            pos = extras.getInt("pos");//posionをget
+            toDoItem.title = extras.getString("title");   //titleをget
+            toDoItem.checked = extras.getBoolean("checked");//checkedをget・
             tuika = extras.getString("枠");
         }
 
@@ -57,9 +57,9 @@ public class EditActivity extends AppCompatActivity {
         //エディットテキストの生成
         EditText editText = new EditText(this);
         editText.setTextColor(Color.BLACK);
-        editText.setSingleLine();
-        editText.setText(toDoItem.title, EditText.BufferType.NORMAL);
-        editText.setHint("タイトル");
+        editText.setSingleLine(); //一行セット
+        editText.setText(toDoItem.title, EditText.BufferType.NORMAL);//titleをセット
+        editText.setHint("タイトル");//ヒントは”タイトル
         LinearLayout.LayoutParams params0 =
                 new LinearLayout.LayoutParams(MP, WC);
         params0.setMargins(
@@ -70,28 +70,28 @@ public class EditActivity extends AppCompatActivity {
 
         editText.setLayoutParams(params0);
                   //このビューに関連付けられたパラメーターを設定します
-        editText.addTextChangedListener(new TextWatcher() {
+        editText.addTextChangedListener(new TextWatcher() {//TextWatcherの設定
             @Override
             public void beforeTextChanged(CharSequence s,
-                                          int start, int count, int after) {
+                                          int start, int count, int after) { 
             }
             @Override
             public void onTextChanged(CharSequence s,
                                       int start, int before, int count) {
-                toDoItem.title = s.toString();
+                toDoItem.title = s.toString();//textをStringにして取り出す ・
             }
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
-        layout.addView(editText);
+        layout.addView(editText);//レイアウトにテキストセットする
 
         //チェックボックスの追加
-        CheckBox checkBox = new CheckBox(this);
-        checkBox.setText("完了");
+        CheckBox checkBox = new CheckBox(this);//checkボックスの生成 ・
+        checkBox.setText("完了");//完了をセット・
         checkBox.setTextColor(Color.BLACK);
-        checkBox.setChecked(toDoItem.checked);
-        LinearLayout.LayoutParams params1 =
+        checkBox.setChecked(toDoItem.checked);//checkedをセット・
+        LinearLayout.LayoutParams params1 =// レイアウトの生成
                 new LinearLayout.LayoutParams(WC, WC);
         params1.setMargins(
                 Util.dp2px(this, 10),
@@ -99,12 +99,12 @@ public class EditActivity extends AppCompatActivity {
                 Util.dp2px(this, 10),
                 Util.dp2px(this, 10));
         checkBox.setLayoutParams(params1);
-        checkBox.setOnCheckedChangeListener(
+        checkBox.setOnCheckedChangeListener( //
                 new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton button, boolean b) {
-                        toDoItem.checked = b;
-                    }
-                });
+                       toDoItem.checked = b;
+                  }
+               });
         layout.addView(checkBox);
     }
 

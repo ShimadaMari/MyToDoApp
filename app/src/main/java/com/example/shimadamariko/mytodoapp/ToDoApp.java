@@ -193,11 +193,11 @@ public class ToDoApp extends AppCompatActivity {
                 checkBox.setOnClickListener(new View.OnClickListener() {//チェックボックスにリスナを設定
                     @Override
                     public void onClick(View sender) {//タップされた時の処理
-                        //ToDo情報の更新
+                       // ToDo情報の更新
                         int pos = Integer.parseInt((String)sender.getTag());//positionを返す処理
-                        ToDoItem item = items.get(pos);//itemにpositionの値を代入
+                       ToDoItem item = items.get(pos);//itemにpositionの値を代入
                         item.checked = ((CheckBox)sender).isChecked();//View型のsenderをチェックボックス型にキャストしチェックされているかどうかを調べる
-                    }
+                   }
                 });
                 layout.addView(checkBox);//レイアウトにチェックボックスを追加
                 view = layout;//viewにlayoutを代入
@@ -213,20 +213,20 @@ public class ToDoApp extends AppCompatActivity {
         }
     }
 
-    //要素群の書き込み
+    //要素群の書き込み  save
     private void saveItems() {
         //ArrayListをJSONに変換
-        String json = list2json(items);
+        String json = list2json(items);//Stringのjsonに要素群の読み込み
 
         //プリファレンスへの書き込み
         SharedPreferences pref = getSharedPreferences(
-                "ToDoApp", MODE_PRIVATE);
+                "ToDoApp", MODE_PRIVATE);//デフォルトモード。
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("items", json);
-        editor.commit();
+        editor.commit();//保存
     }
 
-    //要素群の読み込み
+    //要素群の読み込み  読み込んでJSONをArraylistに変換
     private void loadItems() {
         //プリファレンスからの読み込み
         SharedPreferences pref = getSharedPreferences(
