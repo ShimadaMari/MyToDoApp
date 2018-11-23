@@ -27,7 +27,7 @@ public class EditActivity extends AppCompatActivity {
     private static String tuika;
     //情報             ToDoAppから受け取る情報
     private int      pos;//positionのパラメーター
-    private ToDoItem toDoItem;//ToDoItem
+    private ToDoItem toDoItem;//ToDoItemのitem
 
     //アクティビティ起動時に呼ばれる
     @Override
@@ -90,8 +90,8 @@ public class EditActivity extends AppCompatActivity {
         CheckBox checkBox = new CheckBox(this);//checkボックスの生成 ・
         checkBox.setText("完了");//完了をセット・
         checkBox.setTextColor(Color.BLACK);
-        checkBox.setChecked(toDoItem.checked);//checkedをセット・
-        LinearLayout.LayoutParams params1 =// レイアウトの生成
+        checkBox.setChecked(toDoItem.checked);//checkの状態を更新するcheckedをセット・
+        LinearLayout.LayoutParams params1 =// Linerレイアウトの生成
                 new LinearLayout.LayoutParams(WC, WC);
         params1.setMargins(
                 Util.dp2px(this, 10),
@@ -99,10 +99,10 @@ public class EditActivity extends AppCompatActivity {
                 Util.dp2px(this, 10),
                 Util.dp2px(this, 10));
         checkBox.setLayoutParams(params1);
-        checkBox.setOnCheckedChangeListener( //
+        checkBox.setOnCheckedChangeListener( // checkBoxのイベントを受け取るリスナー
                 new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton button, boolean b) {
-                       toDoItem.checked = b;
+                       toDoItem.checked = b;//ToDOItemのcheckedが ・
                   }
                });
         layout.addView(checkBox);

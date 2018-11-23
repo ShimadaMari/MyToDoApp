@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme" >
 
     <activity
-        android:name=".ToDoApp"
+        android:name=".ExCalendar"
         android:label="@string/app_name"
         android:screenOrientation="portrait">
         <intent-filter>
@@ -20,11 +20,18 @@
     </activity>
 
     <activity
-        android:name=".EditActivity"
+        android:name=".ToDoApp"
         android:label="@string/app_name"
         android:screenOrientation="portrait">
     </activity>
 
-</application>
+        <activity
+            android:name=".EditActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+    </application>
 
 </manifest>

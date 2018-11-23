@@ -177,7 +177,7 @@ public class ToDoApp extends AppCompatActivity {
                     @Override
                     public void onClick(View sender) {//タップされた時の処理
                         //編集アクティビティの起動
-                        int pos = Integer.parseInt((String)sender.getTag());//positonを返す処理
+                        int pos = Integer.parseInt((String)sender.getTag());//Viewに格納されたオプジェクトをTagにして返す
                         ToDoItem item = items.get(pos);//itemにpositonの値を代入
                         startEditActivity(item);//item値に基づいてEditActivityを開く
 
@@ -194,7 +194,7 @@ public class ToDoApp extends AppCompatActivity {
                     @Override
                     public void onClick(View sender) {//タップされた時の処理
                        // ToDo情報の更新
-                        int pos = Integer.parseInt((String)sender.getTag());//positionを返す処理
+                        int pos = Integer.parseInt((String)sender.getTag());//ViewのオプジェクトをTagにしてposに代入
                        ToDoItem item = items.get(pos);//itemにpositionの値を代入
                         item.checked = ((CheckBox)sender).isChecked();//View型のsenderをチェックボックス型にキャストしチェックされているかどうかを調べる
                    }
@@ -205,9 +205,9 @@ public class ToDoApp extends AppCompatActivity {
 
             //既存のチェックボックへの値の指定
             CheckBox checkBox = (CheckBox)view.findViewById(R.id.cell_checkbox);//チェックボックにViewとidを設定
-            checkBox.setChecked(item.checked);//item,checkedを設定
+            checkBox.setChecked(item.checked);//item,checkの状態を更新するcheckedを設定
             checkBox.setText(item.title);//itemのタイトルを設定
-            checkBox.setTag(""+pos);//ポジションとcheckBoxをタグ付
+            checkBox.setTag(""+pos);//ポジションとcheckBoxをタグ付 Stringに変えている
             view.setTag(""+pos);//ボジションとViewをタグ付
             return view;//getVieｗの内容を返す
         }
