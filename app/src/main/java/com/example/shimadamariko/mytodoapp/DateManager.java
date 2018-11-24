@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class DateManager {
-    Calendar mCalendar;
+    Calendar mCalendar;//カレンダープロジェクト
 
     public DateManager(){
-        mCalendar = Calendar.getInstance();
+        mCalendar = Calendar.getInstance();//現在の時刻に基づいてカレンダーを取得
     }
 
     //当月の要素を取得
@@ -23,11 +23,11 @@ public class DateManager {
         int count = getWeeks() * 7 ;
 
         //当月のカレンダーに表示される前月分の日数を計算
-        mCalendar.set(Calendar.DATE, 1);
-        int dayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-        mCalendar.add(Calendar.DATE, -dayOfWeek);
+        mCalendar.set(Calendar.DAY_OF_MONTH,1);//1日を取得
+        int dayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK)-1;//日付から曜日を取得
+        mCalendar.add(Calendar.DAY_OF_MONTH, -dayOfWeek);//日付から曜日適用分を引く
 
-        List<Date> days = new ArrayList<>();
+        List<Date> days = new ArrayList<>();//List生成
 
         for (int i = 0; i < count; i ++){
             days.add(mCalendar.getTime());
@@ -40,7 +40,7 @@ public class DateManager {
         return days;
     }
 
-    //当月かどうか確認
+    //当月かどうか確認    Current:現在
     public boolean isCurrentMonth(Date date){
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", Locale.US);
         String currentMonth = format.format(mCalendar.getTime());
@@ -52,7 +52,7 @@ public class DateManager {
     }
 
     //週数を取得
-    public int getWeeks(){
+    public int getWeeks(){    //最大値を返す
         return mCalendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
     }
 

@@ -1,5 +1,6 @@
 package com.example.shimadamariko.mytodoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -45,9 +46,27 @@ public class ExCalendar extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String message = position + "が選択されました。";
                 Toast.makeText(ExCalendar.this, message, Toast.LENGTH_LONG).show();
+                startEditActivity(null);
             }
         });
         titleText.setText(mCalendarAdapter.getTitle());
+    }
+    private void startEditActivity(ToDoItem item) {
+        Intent intent = new Intent(this, EditActivity.class);
+        if (item == null) {//引き数がnullの時
+            intent.putExtra("pos", -1);  //positionが-1（なし）を格納
+            intent.putExtra("title", "");//title  ""  格納
+            //   intent.putExtra("絶対に編集画面にするかどうか","はい");
+            //   intent.putExtra("枠","追加");
+            intent.putExtra("checked", false);//チェックなしを格納
+        } else {//引数がnull以外の場合
+            intent.putExtra("pos",0);//itemsのpositionのitemを格納
+
+            intent.putExtra("title", item.title); //titelを格納
+            intent.putExtra("checked", item.checked);//チェックを格納
+        }
+        startActivityForResult(intent, 0);//(Intent intent, int requestCode)
+        //推移先にintentとREQUEST_EDITを渡す
     }
 
 }

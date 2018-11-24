@@ -31,7 +31,7 @@ public class CalendarAdapter extends BaseAdapter {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDateManager = new DateManager();
-        dateArray = mDateManager.getDays();
+        dateArray = mDateManager.getDays();//dateArrayにmDataManagerを代入
     }
 
     @Override
@@ -41,27 +41,28 @@ public class CalendarAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        ViewHolder holder;//カスタムセル
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.calendar_cell, null);
-            holder = new ViewHolder();
-            holder.dateText = convertView.findViewById(R.id.dateText);
+            convertView = mLayoutInflater.inflate(R.layout.calendar_cell, null);//Intelat
+            holder = new ViewHolder();//セル生成
+            holder.dateText = convertView.findViewById(R.id.dateText);//holderに日付のtextを代入
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        //セルのサイズを指定
-        float dp = mContext.getResources().getDisplayMetrics().density;
-        AbsListView.LayoutParams params = new AbsListView.LayoutParams(parent.getWidth()/7 - (int)dp, (parent.getHeight() - (int)dp * mDateManager.getWeeks() ) / mDateManager.getWeeks());
+        //セルのサイズを指定                            Metrics:指標
+        float dp = mContext.getResources().getDisplayMetrics().density;//サイズを取得
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(parent.getWidth()/7 - (int)dp,
+                (parent.getHeight() - (int)dp * mDateManager.getWeeks() ) / mDateManager.getWeeks());
         convertView.setLayoutParams(params);
 
-        //日付のみ表示させる
+        //日付のみ表示させる 日付書式フォーマット
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
         holder.dateText.setText(dateFormat.format(dateArray.get(position)));
 
         //当月以外のセルをグレーアウト
-        if (mDateManager.isCurrentMonth(dateArray.get(position))){
+        if (mDateManager.isCurrentMonth(dateArray.get(position))){//当月かどうか調べるメソッドisCurrentManth
             convertView.setBackgroundColor(Color.WHITE);
         }else {
             convertView.setBackgroundColor(Color.LTGRAY);
@@ -106,13 +107,13 @@ public class CalendarAdapter extends BaseAdapter {
     public void nextMonth(){
         mDateManager.nextMonth();
         dateArray = mDateManager.getDays();
-        this.notifyDataSetChanged();
+        this.notifyDataSetChanged();//リストビューの更新
     }
 
     //前月表示
     public void prevMonth(){
         mDateManager.prevMonth();
         dateArray = mDateManager.getDays();
-        this.notifyDataSetChanged();
+        this.notifyDataSetChanged();//リストビューの更新
     }
 }
