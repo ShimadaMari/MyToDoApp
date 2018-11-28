@@ -20,6 +20,7 @@ public class ExCalendar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle("カレンダー");
         setContentView(R.layout.main);
 
         titleText = findViewById(R.id.titleText);
@@ -44,7 +45,8 @@ public class ExCalendar extends AppCompatActivity {
         calendarGridView.setAdapter(mCalendarAdapter);
         calendarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String message = position + "が選択されました。";
+               String message = position+"日が選択されました";
+               // String message = (String)parent.getItemAtPosition(position)+"が選択されました。";
                 Toast.makeText(ExCalendar.this, message, Toast.LENGTH_LONG).show();
                 startEditActivity(null);
             }
@@ -52,7 +54,7 @@ public class ExCalendar extends AppCompatActivity {
         titleText.setText(mCalendarAdapter.getTitle());
     }
     private void startEditActivity(ToDoItem item) {
-        Intent intent = new Intent(this, EditActivity.class);
+        Intent intent = new Intent(this, secondActivity.class);
         if (item == null) {//引き数がnullの時
             intent.putExtra("pos", -1);  //positionが-1（なし）を格納
             intent.putExtra("title", "");//title  ""  格納

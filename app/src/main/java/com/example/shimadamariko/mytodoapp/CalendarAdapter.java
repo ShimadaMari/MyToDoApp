@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class CalendarAdapter extends BaseAdapter {
     //カスタムセルを拡張したらここでWigetを定義
     private static class ViewHolder {
         public TextView dateText;
+        public ImageView imageView;
     }
 
     public CalendarAdapter(Context context){
@@ -45,6 +47,7 @@ public class CalendarAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.calendar_cell, null);//Intelat
             holder = new ViewHolder();//セル生成
+            holder.imageView = convertView.findViewById(R.id.imageView);
             holder.dateText = convertView.findViewById(R.id.dateText);//holderに日付のtextを代入
             convertView.setTag(holder);
         } else {
@@ -70,7 +73,7 @@ public class CalendarAdapter extends BaseAdapter {
 
         //日曜日を赤、土曜日を青に
         int colorId;
-        switch (mDateManager.getDayOfWeek(dateArray.get(position))){
+        switch (mDateManager.getDayOfWeek(dateArray.get(position))){//週を取得
             case 1:
                 colorId = Color.RED;
                 break;
