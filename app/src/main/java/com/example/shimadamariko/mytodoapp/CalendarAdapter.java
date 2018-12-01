@@ -24,9 +24,9 @@ public class CalendarAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
 
     //カスタムセルを拡張したらここでWigetを定義
-    private static class ViewHolder {
+    public static class ViewHolder {
         public TextView dateText;
-        public ImageView imageView;
+        public  ImageView imageView;
     }
 
     public CalendarAdapter(Context context){
@@ -96,7 +96,8 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+   // public Object getItem(int position) {
+    public ViewHolder getItem(int position){//return dateArray.get(position);
         return null;
     }
 
